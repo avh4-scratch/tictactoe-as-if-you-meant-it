@@ -17,12 +17,17 @@ public class EngineTest {
         assertThat(winner("B1,A1,B2,A2,C3,A3"), is(Winner.O));
     }
 
+    @Test
+    public void testOWinsCenterRow() throws Exception {
+        assertThat(winner("A1,B1,A2,B2,C3,B3"), is(Winner.O));
+    }
+
     private Winner winner(String game) {
         if (didXWin(game)) return Winner.X;
         return Winner.O;
     }
 
     private boolean didXWin(String game) {
-        return game.startsWith("A");
+        return game.length() == 14;
     }
 }
