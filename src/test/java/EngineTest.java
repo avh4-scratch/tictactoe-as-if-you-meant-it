@@ -37,18 +37,26 @@ public class EngineTest {
         assertThat(winner("A1,B1,A2,B2,C3"), is(GameOutcome.NoWinner));
     }
 
+    @Test
+    public void testXWinsOnBottomRow() throws Exception {
+        assertThat(winner("C1,B1,C2,B2,C3"), is(GameOutcome.XWins));
+    }
+
     private GameOutcome winner(String game) {
         if (numberOfMoves(game) < 5) return GameOutcome.NoWinner;
         if (didXPlayLast(game)) {
-            if (lastPlayOnTopRow(game)) return GameOutcome.XWins;
+            if (xWinsRow(game, 'A')) return GameOutcome.XWins;
+            if (xWinsRow(game, 'C')) return GameOutcome.XWins;
             return GameOutcome.NoWinner;
         } else {
             return GameOutcome.OWins;
         }
     }
 
-    private boolean lastPlayOnTopRow(String game) {
-        return game.charAt(game.length() - 2) == 'A';
+    private boolean xWinsRow(String game, char row) {
+        char lastRow = game.charAt(game.length() - 2);
+        char firstRow = game.charAt(0);
+        return lastRow == row && lastRow == firstRow;
     }
 
     private boolean didXPlayLast(String game) {
