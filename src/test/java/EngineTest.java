@@ -5,7 +5,7 @@ import static org.junit.Assert.assertThat;
 
 public class EngineTest {
 
-    enum Winner {O, X}
+    enum Winner {O, NoWinner, X}
 
     @Test
     public void testXWinsTopRow() throws Exception {
@@ -27,7 +27,13 @@ public class EngineTest {
         assertThat(winner("A1,B1,A2,B2,C1,C2,A3"), is(Winner.X));
     }
 
+    @Test
+    public void testUnfinishedGame() throws Exception {
+        assertThat(winner("A1,B1,A2,B2"), is(Winner.NoWinner));
+    }
+
     private Winner winner(String game) {
+        if (numberOfMoves(game) < 5) return Winner.NoWinner;
         return lastPlayer(game);
     }
 
