@@ -32,9 +32,20 @@ public class EngineTest {
         assertThat(winner("A1,B1,A2,B2"), is(GameOutcome.NoWinner));
     }
 
+    @Test
+    public void testUnfinishedIn5Moves() throws Exception {
+        assertThat(winner("A1,B1,A2,B2,C3"), is(GameOutcome.NoWinner));
+    }
+
     private GameOutcome winner(String game) {
         if (numberOfMoves(game) < 5) return GameOutcome.NoWinner;
-        return didXPlayLast(game) ? GameOutcome.XWins : GameOutcome.OWins;
+        if (didXPlayLast(game)) {
+            if (game.charAt(game.length() - 2) == 'A')
+                return GameOutcome.XWins;
+            return GameOutcome.NoWinner;
+        } else {
+            return GameOutcome.OWins;
+        }
     }
 
     private boolean didXPlayLast(String game) {
