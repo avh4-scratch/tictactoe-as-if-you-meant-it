@@ -28,6 +28,10 @@ public class EngineTest {
     }
 
     private boolean didXWin(String game) {
-        return game.length() == 14;
+        return numberOfMoves(game) == 5;
+    }
+
+    private int numberOfMoves(String game) {
+        return (game.length() + 1) / 3;
     }
 }
