@@ -5,40 +5,36 @@ import static org.junit.Assert.assertThat;
 
 public class EngineTest {
 
-    enum Winner {O, NoWinner, X}
+    enum GameOutcome {OWins, NoWinner, XWins}
 
     @Test
     public void testXWinsTopRow() throws Exception {
-        assertThat(winner("A1,B1,A2,B2,A3"), is(Winner.X));
+        assertThat(winner("A1,B1,A2,B2,A3"), is(GameOutcome.XWins));
     }
 
     @Test
     public void testOWinsTopRow() throws Exception {
-        assertThat(winner("B1,A1,B2,A2,C3,A3"), is(Winner.O));
+        assertThat(winner("B1,A1,B2,A2,C3,A3"), is(GameOutcome.OWins));
     }
 
     @Test
     public void testOWinsCenterRow() throws Exception {
-        assertThat(winner("A1,B1,A2,B2,C3,B3"), is(Winner.O));
+        assertThat(winner("A1,B1,A2,B2,C3,B3"), is(GameOutcome.OWins));
     }
 
     @Test
     public void testXWinsGameWith7Moves() throws Exception {
-        assertThat(winner("A1,B1,A2,B2,C1,C2,A3"), is(Winner.X));
+        assertThat(winner("A1,B1,A2,B2,C1,C2,A3"), is(GameOutcome.XWins));
     }
 
     @Test
     public void testUnfinishedGame() throws Exception {
-        assertThat(winner("A1,B1,A2,B2"), is(Winner.NoWinner));
+        assertThat(winner("A1,B1,A2,B2"), is(GameOutcome.NoWinner));
     }
 
-    private Winner winner(String game) {
-        if (numberOfMoves(game) < 5) return Winner.NoWinner;
-        return lastPlayer(game);
-    }
-
-    private Winner lastPlayer(String game) {
-        return didXPlayLast(game) ? Winner.X : Winner.O;
+    private GameOutcome winner(String game) {
+        if (numberOfMoves(game) < 5) return GameOutcome.NoWinner;
+        return didXPlayLast(game) ? GameOutcome.XWins : GameOutcome.OWins;
     }
 
     private boolean didXPlayLast(String game) {
