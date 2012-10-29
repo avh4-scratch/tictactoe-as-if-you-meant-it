@@ -40,12 +40,15 @@ public class EngineTest {
     private GameOutcome winner(String game) {
         if (numberOfMoves(game) < 5) return GameOutcome.NoWinner;
         if (didXPlayLast(game)) {
-            if (game.charAt(game.length() - 2) == 'A')
-                return GameOutcome.XWins;
+            if (lastPlayOnTopRow(game)) return GameOutcome.XWins;
             return GameOutcome.NoWinner;
         } else {
             return GameOutcome.OWins;
         }
+    }
+
+    private boolean lastPlayOnTopRow(String game) {
+        return game.charAt(game.length() - 2) == 'A';
     }
 
     private boolean didXPlayLast(String game) {
