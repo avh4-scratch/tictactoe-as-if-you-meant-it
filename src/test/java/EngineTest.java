@@ -28,11 +28,14 @@ public class EngineTest {
     }
 
     private Winner winner(String game) {
-        if (didXWin(game)) return Winner.X;
-        return Winner.O;
+        return lastPlayer(game);
     }
 
-    private boolean didXWin(String game) {
+    private Winner lastPlayer(String game) {
+        return didXPlayLast(game) ? Winner.X : Winner.O;
+    }
+
+    private boolean didXPlayLast(String game) {
         return numberOfMoves(game) % 2 == 1;
     }
 
